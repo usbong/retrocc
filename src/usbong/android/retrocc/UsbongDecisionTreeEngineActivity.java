@@ -371,7 +371,7 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
   			UsbongUtils.storeAssetsFileIntoSDCard(this, UsbongConstants.TREE_TYPE_BUY+".utree"); //added by Mike, 20160126  			
   			
   			//added by Mike, 20160126
-  			UsbongUtils.storeAssetsFileIntoSDCard(this, UsbongConstants.ITEM_LIST+".txt");  
+  			UsbongUtils.storeAssetsFileIntoSDCard(this, UsbongConstants.ITEMS_LIST+".txt");  
     	}
     	catch(IOException ioe) {
     		ioe.printStackTrace();
@@ -605,7 +605,7 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 		isInTreeLoader=true;
 
 //		listOfTreesArrayList = UsbongUtils.getTreeArrayList(UsbongUtils.USBONG_TREES_FILE_PATH);
-		listOfTreesArrayList = UsbongUtils.getItemArrayList(UsbongUtils.USBONG_TREES_FILE_PATH + UsbongConstants.ITEM_LIST+".txt");
+		listOfTreesArrayList = UsbongUtils.getItemArrayList(UsbongUtils.USBONG_TREES_FILE_PATH + UsbongConstants.ITEMS_LIST+".txt");
 			
 		mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
 		mCustomAdapter.sort(); //edited by Mike, 20170203
