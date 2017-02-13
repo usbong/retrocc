@@ -125,7 +125,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				reset(); //generate new timestamp
 				Intent toUsbongDecisionTreeEngineActivityIntent = new Intent().setClass(UsbongMainActivity.getInstance(), UsbongDecisionTreeEngineActivity.class);
 				toUsbongDecisionTreeEngineActivityIntent.putExtra("currScreen","0"); //make currScreen=0; meaning very first screen				
-				toUsbongDecisionTreeEngineActivityIntent.putExtra("utreeToLoad", UsbongConstants.TREE_TYPE_BUY); 								
+				toUsbongDecisionTreeEngineActivityIntent.putExtra("utreeToLoad",UsbongConstants.TREE_TYPE_BUY); 								
 				startActivityForResult(toUsbongDecisionTreeEngineActivityIntent,1);
 			}
     	});

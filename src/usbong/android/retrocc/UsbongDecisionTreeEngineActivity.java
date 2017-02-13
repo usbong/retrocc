@@ -3361,13 +3361,13 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
                     			.replace("Title:", "<b>Title:</b>")
 //            					.replace("\nAuthor:", "\n<b>Author:</b>")
             					.replace("\nPrice:", "\n<b>Price:</b>")
-//            					.replace("\nLanguage:", "\n<b>Language:</b>")
+//            					.replace("\nDetails:", "\n<b>Details:</b>")
             					.replace("\nDetails:", "\n<b>Details:</b>")
             					.replace("\n", "<br>");
 
 	            		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
 	                    Resources myRes = instance.getResources();
-	                    final String imageFileName = o.toString().substring(0, o.toString().indexOf("\nAuthor:"))
+	                    final String imageFileName = o.toString().substring(0, o.toString().indexOf("\nPrice:"))
 	                    		.replace("Title: ","")
 	                    		.replace("Åf","")
 	                    		.replace("'","")

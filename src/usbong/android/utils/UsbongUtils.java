@@ -1388,16 +1388,17 @@ public class UsbongUtils {
         		}
         		
         		if (isNewEntry) {
-        			StringBuffer entry = new StringBuffer(currLineString); //title
+//        			String entry=currLineString.replace("Title: ", "");
+        			StringBuffer entry = new StringBuffer(currLineString);
         			currLineString=br.readLine();
-        			entry.append("\n"+currLineString); //price
+//        			entry.concat(currLineString.replace("\nAuthor: ", ""));
+        			entry.append("\n"+currLineString);
         			currLineString=br.readLine();
-        			entry.append("\n"+currLineString); //details
-/*
-        			currLineString=br.readLine();
+//        			entry.concat(currLineString.replace("\nPrice: ", ""));
+        			entry.append("\n"+currLineString);
+//        			currLineString=br.readLine();
 //        			entry.concat(currLineString.replace("\nLanguage: ", ""));        			
-        			entry.append("\n"+currLineString);        			
-*/        			
+//        			entry.append("\n"+currLineString);        			
         			ret.add(entry.toString());
         			isNewEntry=false;
         		}
@@ -3335,7 +3336,7 @@ public class UsbongUtils {
 
     //added by JP, 26 May 2015
 	public static String parseYouTubeLink(String l) {
-		String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|watch\\?v%3D|%2Fvideos%2F|embed%鬯ｩ蛹�ｽｽ�ｯ�ｽ�ｽ�ｽ�ｶ鬮ｯ讖ｸ�ｽ�ｽ�ｽ�ｽ�ｽ�ｯ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\n]*";
+		String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|watch\\?v%3D|%2Fvideos%2F|embed%鬩包ｽｯ�ｽ�ｶ髯橸ｽｽ�ｽ�ｯ�ｽ�ｽ�ｽ�ｽ2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\n]*";
 
 		Pattern compiledPattern = Pattern.compile(pattern);
 	    Matcher matcher = compiledPattern.matcher(l);
