@@ -598,11 +598,26 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
         
     }
     
+    //added by Mike, 20170213
+    public void resetContainers() {
+    	decisionTrackerContainer.clear();
+    	usbongAnswerContainer.clear();
+    	usbongNodeContainer.clear();
+    	classificationContainer.clear();
+    	radioButtonsContainer.clear();
+    	checkBoxesContainer.clear();
+    	
+    	usbongAnswerContainerCounter=0;
+    	usbongNodeContainerCounter=-1; //begin with -1
+    }
+    
 	public void initTreeLoader()
 	{
 		setContentView(R.layout.tree_list_interface);				
 
 		isInTreeLoader=true;
+		
+		resetContainers();//added by Mike, 20170213
 
 //		listOfTreesArrayList = UsbongUtils.getTreeArrayList(UsbongUtils.USBONG_TREES_FILE_PATH);
 		listOfTreesArrayList = UsbongUtils.getItemArrayList(UsbongUtils.USBONG_TREES_FILE_PATH + UsbongConstants.ITEMS_LIST+".txt");
@@ -2269,7 +2284,7 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
             else { 
         		//added by Mike, 20170206
         		if (myTree.equals(UsbongConstants.TREE_TYPE_BUY)) {
-        	    	initTreeLoader(); //added by Mike, 20170206   
+        			initTreeLoader(); //added by Mike, 20170206   
         	    	return;
         		}
         		else {
@@ -3383,7 +3398,7 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 	            				//added by Mike, 20170203
 	                        	setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_VARIABLE_NAME, s);
 	            				setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_IMAGE_NAME, imageFileName); //added by Mike, 20160203
-	                    		image.setImageDrawable(myDrawableImage);	
+	                    		image.setImageDrawable(myDrawableImage);		                    		
 	                        	initParser(UsbongConstants.TREE_TYPE_BUY);           				
 	            			}
 	                	});
