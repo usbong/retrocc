@@ -269,8 +269,9 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
         UsbongUtils.myAssetManager = getAssets();
         
         //added by Mike, 22 Sept. 2015
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);        
-        getSupportActionBar().setTitle("Title Screen");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);        
+//        getSupportActionBar().setTitle("Title Screen");
+        getSupportActionBar().setTitle("RetroCC"); //edited by Mike, 20170214
         
         currUsbongNode=""; //added by Mike, 20160417
         isAutoLoopedTree=false; //added by Mike, 20160417
@@ -1092,7 +1093,9 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 				}).show();
 				return true;
 			case android.R.id.home: //added by Mike, 22 Sept. 2015
+/*//commented out by Mike, 201702014; UsbongDecisionTreeEngineActivity is already the main menu				
 				processReturnToMainMenuActivity();
+*/				
 		        return true;
 			default:
 				return super.onOptionsItemSelected(item);
