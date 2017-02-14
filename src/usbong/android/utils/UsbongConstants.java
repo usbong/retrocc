@@ -10,7 +10,7 @@ public class UsbongConstants {
     //TREE types
 	public static final String TREE_TYPE_SELL = "usbong_specialty_bookstore_sell";
 	public static final String TREE_TYPE_REQUEST = "usbong_specialty_bookstore_request";
-	public static final String TREE_TYPE_BUY = "usbong_specialty_bookstore_buy";
+	public static final String TREE_TYPE_BUY = "buy";
 
 	public static final String ITEMS_LIST = "items_list";
 	public static final String ITEM_VARIABLE_NAME = "item_details";
