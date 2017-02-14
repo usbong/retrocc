@@ -2,6 +2,7 @@
 <resources>
     <string name="hello_world">Hello World, UsbongActivity!</string>
     <string name="app_name">RetroCC</string>
+    <string name="brand_motto">Keep Reading. Keep Collecting.</string>
     <string name="start">Start</string>
     <string name="sell">Sell</string>
     <string name="request">Request</string>
