@@ -3413,7 +3413,10 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 	                    		image.setImageDrawable(myDrawableImage);		                    		
 	                        	initParser(UsbongConstants.TREE_TYPE_BUY);           				
 */
+                				//added by Mike, 20170216
 	            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, s);
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 	            				startActivityForResult(toBuyActivityIntent,1);
 	            			}
 	                	});
@@ -3435,7 +3438,10 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
                         		image.setImageDrawable(myDrawableImage);	
                 				initParser(UsbongConstants.TREE_TYPE_BUY); //added by Mike, 20160202          				                	
 */
+                				//added by Mike, 20170216
 	            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, s);
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 	            				startActivityForResult(toBuyActivityIntent,1);
                 			}
                 		});

@@ -29,6 +29,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -42,18 +44,22 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /*
  * This is Usbong's Main Menu activity. 
  */
 public class BuyActivity extends AppCompatActivity/*Activity*/ 
 {	
-	private Button buyButton;
-	private Button sellButton;
+	private Button confirmButton;
+	private Button backButton;
+
+/*	private Button sellButton;
 	private Button requestButton;
-	
+*/	
 //	private static BuyActivity instance;
 				
 	public static String timeStamp;
@@ -81,15 +87,14 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
         myActivityInstance = this;
         
         //added by Mike, 25 Sept. 2015
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("RetroCC");
 //        getSupportActionBar().setDisplayUseLogoEnabled(true);        
 
-//    	if (instance==null) { //comment this out, since the app seems to retain the instance even after we do a finish to GameActivity to close the app...
-	        setContentView(R.layout.buy);	        
-//	        instance = this; //commented out by Mike, 20170216
-//	    	startTime = new Date();	        
 
+	    setContentView(R.layout.ecommerce_text_image_display_screen);	        
+//	    setContentView(R.layout.buy);	        
+/*//commented out by Mike, 20170216
             //added by Mike, 20161117
         	Bundle extras = getIntent().getExtras();
         	if (extras!=null) {
@@ -99,9 +104,9 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 			        AppRater.showRateDialog(this); 
 	        	}	        		
         	}
-        	
+*/        	
 	        reset();
-	        initMainMenuScreen();
+	        init();
     }
     
     public Activity getInstance() {
@@ -114,15 +119,37 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
      */
     public void init()
     {    	
-    }
-    
-    public void initMainMenuScreen()
-    {    	
+
+		TextView myTextImageDisplayTextView = (TextView)findViewById(R.id.text_image_display_textview);
+    	myTextImageDisplayTextView = (TextView) UsbongUtils.applyTagsInView(UsbongDecisionTreeEngineActivity.getInstance(), myTextImageDisplayTextView, UsbongUtils.IS_TEXTVIEW, getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));        	
+
+		ImageView myTextImageDisplayImageView = (ImageView)findViewById(R.id.image_display_imageview);
+
+		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
+        Resources myRes = getResources();
+        try {
+            Drawable myDrawableImage = Drawable.createFromStream(myRes.getAssets().open(getIntent().getStringExtra(UsbongConstants.ITEM_IMAGE_NAME)), null); //edited by Mike, 20170202        	
+        
+            if (myDrawableImage!=null) {
+        		myTextImageDisplayImageView.setImageDrawable(myDrawableImage);        	
+            }
+            else {
+        		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
+    			myDrawableImage = myRes.getDrawable(myRes.getIdentifier("no_image", "drawable", UsbongUtils.myPackageName));
+    			myTextImageDisplayImageView.setImageDrawable(myDrawableImage);		        		        	        	
+            }
+        }
+        catch (Exception e) {
+        	e.printStackTrace();
+        }        
+
     	//added by Mike, 20160126
-    	buyButton = (Button)findViewById(R.id.buy_button);
-    	buyButton.setOnClickListener(new OnClickListener() {
+    	confirmButton = (Button)findViewById(R.id.confirm_button);
+    	confirmButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {		
+				//TODO: store product details later
+			    setContentView(R.layout.account);	        			    								
 /*
 				reset(); //generate new timestamp
 				Intent toUsbongDecisionTreeEngineActivityIntent = new Intent().setClass(BuyActivity.getInstance(), UsbongDecisionTreeEngineActivity.class);
@@ -132,6 +159,19 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 */				
 			}
     	});    	
+/*    	
+    	//added by Mike, 20160126
+    	backButton = (Button)findViewById(R.id.back_button);
+    	backButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {		
+				
+				
+				//TODO: store product details later
+			    setContentView(R.layout.ecommerce_text_image_display_screen);	        			    								
+			}
+    	});    	
+*/    	
     }
     
     public void reset() {
@@ -434,6 +474,16 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				    }
 				}).show();
 				return true;
+			case android.R.id.home: //added by Mike, 22 Sept. 2015
+/*//commented out by Mike, 201702014; UsbongDecisionTreeEngineActivity is already the main menu				
+				processReturnToMainMenuActivity();
+*/				    	//added by Mike, 20170216
+				//return to UsbongDecisionTreeEngineActivity
+				finish();
+				Intent toUsbongDecisionTreeEngineActivityIntent = new Intent(getInstance(), UsbongDecisionTreeEngineActivity.class);
+				toUsbongDecisionTreeEngineActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+				startActivity(toUsbongDecisionTreeEngineActivityIntent);
+		        return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
