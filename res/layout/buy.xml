@@ -3,7 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="@drawable/bg"
+	android:background="@drawable/bg_contrast"
 	android:orientation="vertical"
 >
 	<FrameLayout 
@@ -25,6 +25,66 @@
 	        android:gravity="right"
 	        android:layout_marginTop="40dp"/>		
 	</FrameLayout>
+	<EditText
+        style="@style/UsbongLoginEditText"
+        android:id="@+id/first_name"
+        android:hint="First Name"
+        android:background="@drawable/rect_text_edit"
+        android:textColorHint="#9a9898"
+        android:padding="5dp"        
+        android:layout_marginTop="5dp"        
+	/>
+	<EditText
+        style="@style/UsbongLoginEditText"
+        android:id="@+id/surname"
+        android:hint="Surname"
+        android:background="@drawable/rect_text_edit"
+        android:textColorHint="#9a9898"
+        android:padding="5dp"        
+        android:layout_marginTop="5dp"        
+	/>
+	<EditText
+        style="@style/UsbongLoginEditText"
+        android:id="@+id/contact_number"
+        android:hint="Contact Number"
+        android:background="@drawable/rect_text_edit"
+        android:textColorHint="#9a9898"
+        android:padding="5dp"        
+        android:layout_marginTop="5dp"        
+        android:inputType="phone"
+	/>
+	<RadioGroup
+	    style="@style/UsbongLoginEditText"	
+	    android:padding="5dp"        
+        android:layout_marginTop="5dp"  	
+        android:orientation="horizontal"    
+        android:layout_width="wrap_content"
+	    >
+	    <RadioButton
+	        android:id="@+id/meetup_radiobutton"	               
+	    	style="@style/UsbongLoginEditText"	
+	        android:text="Meet-up"
+	        android:textColor="#ffffff"
+	        />
+	    <RadioButton
+	        android:id="@+id/shipping_radiobutton"	               
+	        style="@style/UsbongLoginEditText"	 
+	        android:text="Shipping"
+	        android:textColor="#ffffff"
+	        />
+	</RadioGroup>
+	<EditText
+        style="@style/UsbongTextAreaEditText"	
+        android:id="@+id/address"
+        android:hint="Meet-up Place/Shipping Address"
+        android:textColorHint="#9a9898"
+        android:padding="5dp"        
+        android:layout_marginTop="5dp"
+        android:lines="4"
+        android:textSize="18dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+	/>
 	<LinearLayout
 		style="@style/UsbongDefaultBuySellRequestButtonLayout">	
 		<Button android:id="@+id/buy_button"
