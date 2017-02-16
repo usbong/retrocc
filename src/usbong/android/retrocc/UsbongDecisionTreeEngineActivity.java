@@ -239,6 +239,9 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 	private static AlertDialog mySetLanguageAlertDialog;
 
 	private ArrayAdapter<String> arrayAdapter; //added by Mike, 20160507
+		
+	//added by Mike, 20170216
+	private BuyActivity myBuyActivity;
 	
 //	@SuppressLint("InlinedApi")
     @Override
@@ -248,6 +251,8 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
         super.onCreate(savedInstanceState);        
                 
         instance=this;
+        
+        myBuyActivity = new BuyActivity();
         
         //added by Mike, 20160511
         if (UsbongUtils.hasUnlockedAllLanguages) {
@@ -647,10 +652,13 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 			.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-		    		finish();    
+					//UsbongDecisionTreeEngineActivity is already the Main Menu
+/*
+					finish();    
 					Intent toUsbongMainActivityIntent = new Intent(UsbongDecisionTreeEngineActivity.this, UsbongMainActivity.class);
 					toUsbongMainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 					startActivity(toUsbongMainActivityIntent);
+*/					
 				}
 			}).show();	        		        	
 		  }				  
@@ -3398,11 +3406,15 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 	                	dataCurrentTextView.setOnClickListener(new OnClickListener() {
 	            			@Override
 	            			public void onClick(View v) {
+/*	            				
 	            				//added by Mike, 20170203
 	                        	setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_VARIABLE_NAME, s);
 	            				setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_IMAGE_NAME, imageFileName); //added by Mike, 20160203
 	                    		image.setImageDrawable(myDrawableImage);		                    		
 	                        	initParser(UsbongConstants.TREE_TYPE_BUY);           				
+*/
+	            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
+	            				startActivityForResult(toBuyActivityIntent,1);
 	            			}
 	                	});
                 		image.setImageDrawable(myDrawableImage);                		
@@ -3416,11 +3428,15 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
                 		image.setOnClickListener(new OnClickListener() {
                 			@Override
                 			public void onClick(View v) {
+/*
                 				//added by Mike, 20170203
                             	setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_VARIABLE_NAME, s);
                 				setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_IMAGE_NAME, imageFileName); //added by Mike, 20160203
                         		image.setImageDrawable(myDrawableImage);	
                 				initParser(UsbongConstants.TREE_TYPE_BUY); //added by Mike, 20160202          				                	
+*/
+	            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
+	            				startActivityForResult(toBuyActivityIntent,1);
                 			}
                 		});
                 	}
