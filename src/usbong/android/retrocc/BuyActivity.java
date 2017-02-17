@@ -88,7 +88,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
         
         //added by Mike, 25 Sept. 2015
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("RetroCC");
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
 //        getSupportActionBar().setDisplayUseLogoEnabled(true);        
 
 
