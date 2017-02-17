@@ -3,12 +3,33 @@
 	style="@style/UsbongSpecialParentLayout"
 	android:id="@+id/parent_layout_id"       	
 	>
+	<FrameLayout 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/brand_bg">
+	    <ImageView android:id="@+id/brand_logo"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/brand_logo"				    
+		/>
+		<TextView
+	        android:text="@string/brand_motto"
+	        android:textSize="15sp"
+	        android:textStyle="bold"
+	        android:textColor="#FFFFFF"
+	        android:layout_height="fill_parent"
+	        android:layout_width="fill_parent"
+	        android:gravity="right"
+	        android:layout_marginTop="40dp"/>		
+	</FrameLayout>
 	<ScrollView style="@style/UsbongDefaultScrollView"
 	>		 	
 	<LinearLayout style="@style/UsbongTextImageMainLayout">
 		<TextView android:id="@+id/text_image_display_textview"
 		    style="@style/UsbongDefaultTextView"	    	
 		    android:text="@string/default_textview" 
+		    android:textSize="24dp"
+		    android:gravity="left"
 		/>
 	    
 	    <ImageView android:id="@+id/image_display_imageview"
