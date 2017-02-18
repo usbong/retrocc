@@ -25,66 +25,126 @@
 	        android:layout_gravity="center_vertical"
 	        android:gravity="right"/>		
 	</FrameLayout>
-	<EditText
-        style="@style/UsbongLoginEditText"
-        android:id="@+id/first_name"
-        android:hint="First Name"
-        android:background="@drawable/rect_text_edit"
-        android:textColorHint="#9a9898"
-        android:padding="5dp"        
-        android:layout_marginTop="5dp"        
-	/>
-	<EditText
-        style="@style/UsbongLoginEditText"
-        android:id="@+id/surname"
-        android:hint="Surname"
-        android:background="@drawable/rect_text_edit"
-        android:textColorHint="#9a9898"
-        android:padding="5dp"        
-        android:layout_marginTop="5dp"        
-	/>
-	<EditText
-        style="@style/UsbongLoginEditText"
-        android:id="@+id/contact_number"
-        android:hint="Contact Number"
-        android:background="@drawable/rect_text_edit"
-        android:textColorHint="#9a9898"
-        android:padding="5dp"        
-        android:layout_marginTop="5dp"        
-        android:inputType="phone"
-	/>
-	<RadioGroup
-	    style="@style/UsbongLoginEditText"	
-	    android:padding="5dp"        
-        android:layout_marginTop="5dp"  	
-        android:orientation="horizontal"    
-        android:layout_width="wrap_content"
-	    >
-	    <RadioButton
-	        android:id="@+id/meetup_radiobutton"	               
-	    	style="@style/UsbongLoginEditText"	
-	        android:text="Meet-up"
-	        android:textColor="#ffffff"
-	        />
-	    <RadioButton
-	        android:id="@+id/shipping_radiobutton"	               
-	        style="@style/UsbongLoginEditText"	 
-	        android:text="Shipping"
-	        android:textColor="#ffffff"
-	        />
-	</RadioGroup>
-	<EditText
-        style="@style/UsbongTextAreaEditText"	
-        android:id="@+id/address"
-        android:hint="Meet-up Place/Shipping Address"
-        android:textColorHint="#9a9898"
-        android:padding="5dp"        
-        android:layout_marginTop="5dp"
-        android:lines="4"
-        android:textSize="18dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-	/>
+	<ScrollView style="@style/UsbongDefaultScrollView"
+	>		 	
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+		>
+		   	<EditText
+	        style="@style/UsbongLoginEditText"
+	        android:id="@+id/first_name"
+	        android:hint="First Name"
+	        android:background="@drawable/rect_text_edit"
+	        android:textColorHint="#9a9898"
+	        android:padding="5dp"        
+	        android:layout_marginTop="5dp"        
+			/>
+			<EditText
+		        style="@style/UsbongLoginEditText"
+		        android:id="@+id/surname"
+		        android:hint="Surname"
+		        android:background="@drawable/rect_text_edit"
+		        android:textColorHint="#9a9898"
+		        android:padding="5dp"        
+		        android:layout_marginTop="5dp"        
+			/>
+			<EditText
+		        style="@style/UsbongLoginEditText"
+		        android:id="@+id/contact_number"
+		        android:hint="Contact Number"
+		        android:background="@drawable/rect_text_edit"
+		        android:textColorHint="#9a9898"
+		        android:padding="5dp"        
+		        android:layout_marginTop="5dp"        
+		        android:inputType="phone"
+			/>
+			<RadioGroup
+			    style="@style/UsbongLoginEditText"	
+			    android:padding="5dp"        
+		        android:layout_marginTop="5dp"  	
+		        android:orientation="horizontal"    
+		        android:layout_width="wrap_content"
+			    >
+			    <RadioButton
+			        android:id="@+id/meetup_radiobutton"	               
+			    	style="@style/UsbongLoginEditText"	
+			        android:text="Meet-up"
+			        android:textColor="#ffffff"
+			        />
+			    <RadioButton
+			        android:id="@+id/shipping_radiobutton"	               
+			        style="@style/UsbongLoginEditText"	 
+			        android:text="Shipping"
+			        android:textColor="#ffffff"
+			        />
+			</RadioGroup>
+			<EditText
+		        style="@style/UsbongTextAreaEditText"	
+		        android:id="@+id/address"
+		        android:hint="Meet-up Place/Shipping Address"
+		        android:textColorHint="#9a9898"
+		        android:padding="5dp"        
+		        android:layout_marginTop="5dp"
+		        android:lines="4"
+		        android:textSize="18dp"
+		        android:layout_marginLeft="12dp"
+		        android:layout_marginRight="12dp"
+			/>
+			<RadioGroup
+			    style="@style/UsbongLoginEditText"	
+			    android:padding="5dp"        
+		        android:layout_marginTop="5dp"  	
+		        android:orientation="vertical"    
+		        android:layout_width="wrap_content"
+			    >
+			    <RadioButton
+			        android:id="@+id/cash_upon_meetup_radiobutton"	               
+			    	style="@style/UsbongLoginEditText"	
+			        android:text="Cash-upon Meetup"
+			        android:textColor="#ffffff"
+			        />
+			    <RadioButton
+			        android:id="@+id/bank_deposit_radiobutton"	               
+			        style="@style/UsbongLoginEditText"	 
+			        android:text="Bank Deposit"
+			        android:textColor="#ffffff"
+			        />
+			   	<RadioButton
+			        android:id="@+id/pera_padala_radiobutton"	               
+			        style="@style/UsbongLoginEditText"	 
+			        android:text="Pera Padala"
+			        android:textColor="#ffffff"
+			        />	    
+			</RadioGroup>
+			<EditText
+		        style="@style/UsbongTextAreaEditText"	
+		        android:id="@+id/additional_instructions"
+		        android:hint="Additional Instructions (optional)"
+		        android:textColorHint="#9a9898"
+		        android:padding="5dp"        
+		        android:layout_marginTop="5dp"
+		        android:lines="4"
+		        android:textSize="18dp"
+		        android:layout_marginLeft="12dp"
+		        android:layout_marginRight="12dp"
+			/>	
+			<EditText
+		        style="@style/UsbongTextAreaEditText"	
+		        android:id="@+id/additional_inquiries"
+		        android:hint="Additional Inquiries (optional)"
+		        android:textColorHint="#9a9898"
+		        android:padding="5dp"        
+		        android:layout_marginTop="5dp"
+		        android:layout_marginBottom="5dp"	        
+		        android:lines="4"
+		        android:textSize="18dp"
+		        android:layout_marginLeft="12dp"
+		        android:layout_marginRight="12dp"
+			/>			
+		</LinearLayout>
+	</ScrollView>	
 	<LinearLayout
 		style="@style/UsbongDefaultBuySellRequestButtonLayout">	
 		<Button android:id="@+id/confirm_button"
