@@ -48,13 +48,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*
  * This is Usbong's Main Menu activity. 
  */
 public class BuyActivity extends AppCompatActivity/*Activity*/ 
 {	
+	
+	private final static int BUY_SCREEN=0;
+	private final static int ACCOUNT_SCREEN=1;	
+	private static int currScreen;
+	
 	private Button confirmButton;
+	private Button buyButton; //added by Mike, 20170220
+
 	private Button backButton;
 
 /*	private Button sellButton;
@@ -85,6 +93,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
         myActivityInstance = this;
+        
+        currScreen=BUY_SCREEN;//default; added by Mike, 20170220
         
         //added by Mike, 25 Sept. 2015
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -119,37 +129,70 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
      */
     public void init()
     {    	
+    	if (currScreen==BUY_SCREEN) {
+    		TextView myTextImageDisplayTextView = (TextView)findViewById(R.id.text_image_display_textview);
+        	myTextImageDisplayTextView = (TextView) UsbongUtils.applyTagsInView(UsbongDecisionTreeEngineActivity.getInstance(), myTextImageDisplayTextView, UsbongUtils.IS_TEXTVIEW, getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));        	
 
-		TextView myTextImageDisplayTextView = (TextView)findViewById(R.id.text_image_display_textview);
-    	myTextImageDisplayTextView = (TextView) UsbongUtils.applyTagsInView(UsbongDecisionTreeEngineActivity.getInstance(), myTextImageDisplayTextView, UsbongUtils.IS_TEXTVIEW, getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));        	
+    		ImageView myTextImageDisplayImageView = (ImageView)findViewById(R.id.image_display_imageview);
 
-		ImageView myTextImageDisplayImageView = (ImageView)findViewById(R.id.image_display_imageview);
-
-		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
-        Resources myRes = getResources();
-        try {
-            Drawable myDrawableImage = Drawable.createFromStream(myRes.getAssets().open(getIntent().getStringExtra(UsbongConstants.ITEM_IMAGE_NAME)), null); //edited by Mike, 20170202        	
-        
-            if (myDrawableImage!=null) {
-        		myTextImageDisplayImageView.setImageDrawable(myDrawableImage);        	
+    		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
+            Resources myRes = getResources();
+            try {
+                Drawable myDrawableImage = Drawable.createFromStream(myRes.getAssets().open(getIntent().getStringExtra(UsbongConstants.ITEM_IMAGE_NAME)), null); //edited by Mike, 20170202        	
+            
+                if (myDrawableImage!=null) {
+            		myTextImageDisplayImageView.setImageDrawable(myDrawableImage);        	
+                }
+                else {
+            		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
+        			myDrawableImage = myRes.getDrawable(myRes.getIdentifier("no_image", "drawable", UsbongUtils.myPackageName));
+        			myTextImageDisplayImageView.setImageDrawable(myDrawableImage);		        		        	        	
+                }
             }
-            else {
-        		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
-    			myDrawableImage = myRes.getDrawable(myRes.getIdentifier("no_image", "drawable", UsbongUtils.myPackageName));
-    			myTextImageDisplayImageView.setImageDrawable(myDrawableImage);		        		        	        	
-            }
-        }
-        catch (Exception e) {
-        	e.printStackTrace();
-        }        
-
+            catch (Exception e) {
+            	e.printStackTrace();
+            }            		
+    	}
+/*
     	//added by Mike, 20160126
-    	confirmButton = (Button)findViewById(R.id.confirm_button);
+    	buyButton = (Button)findViewById(R.id.buy_button);
+    	if (buyButton!=null) {
+        	buyButton.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {		
+    			    setContentView(R.layout.account);	        
+    			}
+        	});    	    		
+    	}
+*/         
+    	//added by Mike, 20160126
+    	confirmButton = (Button)findViewById(R.id.confirm_button);    	
     	confirmButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {		
-				//TODO: store product details later
-			    setContentView(R.layout.account);	        			    								
+				if (currScreen==BUY_SCREEN) {
+					currScreen=ACCOUNT_SCREEN;
+					setContentView(R.layout.account);	
+					init();
+				}
+				else {
+					//TODO: store product details later
+
+					//http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application;
+					//answer by: Jeremy Logan, 20100204
+					//added by Mike, 20170220
+				    Intent i = new Intent(Intent.ACTION_SEND);
+				    i.setType("message/rfc822"); //remove all non-email apps that support send intent from chooser
+				    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{UsbongConstants.EMAIL_ADDRESS});
+				    i.putExtra(Intent.EXTRA_SUBJECT, "ORDER: ");
+				    i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+				    try {
+				        startActivity(Intent.createChooser(i, "Sending email..."));
+				    } catch (android.content.ActivityNotFoundException ex) {
+				        Toast.makeText(BuyActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+				    }	
+				}				
+			    
 /*
 				reset(); //generate new timestamp
 				Intent toUsbongDecisionTreeEngineActivityIntent = new Intent().setClass(BuyActivity.getInstance(), UsbongDecisionTreeEngineActivity.class);

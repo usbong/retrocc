@@ -18,7 +18,8 @@ public class UsbongConstants {
 		
 	//added by Mike, 20170207
     public static final String MY_ACCOUNT_DETAILS= "MyAccountDetails";
-	
+    public static final String EMAIL_ADDRESS= "order@retrocc.ph";	
+    
     //SCREEN types constants
 	public static final int YES_NO_DECISION_SCREEN=0;	
 	public static final int MULTIPLE_RADIO_BUTTONS_SCREEN=1;	
