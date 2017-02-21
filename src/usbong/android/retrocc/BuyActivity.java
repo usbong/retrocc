@@ -20,7 +20,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import usbong.android.utils.AppRater;
 import usbong.android.utils.UsbongConstants;
 import usbong.android.utils.UsbongUtils;
 import android.app.Activity;
@@ -47,6 +46,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 	private final static int ACCOUNT_SCREEN=1;	
 	private static int currScreen;
 	
+	private String productDetails; //added by Mike, 20170221
+		
 	private Button confirmButton;
 	private Button buyButton; //added by Mike, 20170220
 
@@ -133,6 +136,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
     		TextView myTextImageDisplayTextView = (TextView)findViewById(R.id.text_image_display_textview);
         	myTextImageDisplayTextView = (TextView) UsbongUtils.applyTagsInView(UsbongDecisionTreeEngineActivity.getInstance(), myTextImageDisplayTextView, UsbongUtils.IS_TEXTVIEW, getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));        	
 
+        	productDetails = myTextImageDisplayTextView.getText().toString();//added by Mike, 20170221
+
     		ImageView myTextImageDisplayImageView = (ImageView)findViewById(R.id.image_display_imageview);
 
     		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
@@ -177,15 +182,64 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				}
 				else {
 					//TODO: store product details later
+					StringBuffer buySummary = new StringBuffer();
+					buySummary.append("-Purchase Order Summary-\n");					
+					buySummary.append(productDetails+"\n--\n");
+										
+					buySummary.append("Customer Name: "+
+							((TextView)findViewById(R.id.surname)).getText().toString()+", "+
+							((TextView)findViewById(R.id.first_name)).getText().toString()+"\n");    	
 
+					buySummary.append("Contact Number: "+
+							((TextView)findViewById(R.id.contact_number)).getText().toString()+"\n");    	
+
+					RadioGroup radioButtonGroup = (RadioGroup)findViewById(R.id.multiple_radio_buttons_radiogroup);
+					int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();				
+//					RadioButton r = (RadioButton) radioButtonGroup.getChildAt(radioButtonID); 
+					RadioButton radioButton = (RadioButton) radioButtonGroup.findViewById(radioButtonID);
+					String selectedText = radioButton.getText().toString();	 
+					buySummary.append("Preference: "+selectedText+"\n");    	
+
+					buySummary.append("Address: "+
+							((TextView)findViewById(R.id.address)).getText().toString()+"\n");    	
+					
+					RadioGroup paymentMethodRadioButtonGroup = (RadioGroup)findViewById(R.id.payment_method_multiple_radio_buttons_radiogroup);
+					int paymentMethodRadioButtonID = paymentMethodRadioButtonGroup.getCheckedRadioButtonId();					
+					RadioButton paymentMethodRadioButton = (RadioButton) paymentMethodRadioButtonGroup.findViewById(paymentMethodRadioButtonID);
+					String paymentMethodSelectedText = paymentMethodRadioButton.getText().toString();	 
+
+					buySummary.append("Payment Method: "+paymentMethodSelectedText+"\n");    	
+
+					String additionalInstructionsString = ((TextView)findViewById(R.id.additional_instructions)).getText().toString();					
+					if (additionalInstructionsString.trim().equals("")) {
+						buySummary.append("Additional Instructions: "+
+								"N/A\n");    							
+					}
+					else {
+						buySummary.append("Additional Instructions: "+
+								additionalInstructionsString+"\n");    							
+					}
+					
+					String additionalInquiriesString = ((TextView)findViewById(R.id.additional_inquiries)).getText().toString();					
+					if (additionalInquiriesString.trim().equals("")) {
+						buySummary.append("Additional Inquiries: "+
+								"N/A\n");    							
+					}
+					else {
+						buySummary.append("Additional Inquiries: "+
+								additionalInquiriesString+"\n");    							
+					}
+
+					buySummary.append("-End of Summary-");    							
+					
 					//http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application;
 					//answer by: Jeremy Logan, 20100204
 					//added by Mike, 20170220
 				    Intent i = new Intent(Intent.ACTION_SEND);
 				    i.setType("message/rfc822"); //remove all non-email apps that support send intent from chooser
 				    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{UsbongConstants.EMAIL_ADDRESS});
-				    i.putExtra(Intent.EXTRA_SUBJECT, "ORDER: ");
-				    i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+				    i.putExtra(Intent.EXTRA_SUBJECT, "Purchase Order: "+productDetails.substring(0,productDetails.indexOf("\n")).replace("Title: ",""));
+				    i.putExtra(Intent.EXTRA_TEXT   , buySummary.toString());
 				    try {
 				        startActivity(Intent.createChooser(i, "Sending email..."));
 				    } catch (android.content.ActivityNotFoundException ex) {

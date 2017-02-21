@@ -61,11 +61,12 @@
 		        android:inputType="phone"
 			/>
 			<RadioGroup
+			    android:id="@+id/multiple_radio_buttons_radiogroup"
 			    style="@style/UsbongLoginEditText"	
 			    android:padding="5dp"        
 		        android:layout_marginTop="5dp"  	
 		        android:orientation="horizontal"    
-		        android:layout_width="wrap_content"
+		        android:layout_width="wrap_content"	        
 			    >
 			    <RadioButton
 			        android:id="@+id/meetup_radiobutton"	               
@@ -78,6 +79,7 @@
 			        style="@style/UsbongLoginEditText"	 
 			        android:text="Shipping"
 			        android:textColor="#ffffff"
+			        android:checked="true"
 			        />
 			</RadioGroup>
 			<EditText
@@ -93,6 +95,7 @@
 		        android:layout_marginRight="12dp"
 			/>
 			<RadioGroup
+			    android:id="@+id/payment_method_multiple_radio_buttons_radiogroup"			    
 			    style="@style/UsbongLoginEditText"	
 			    android:padding="5dp"        
 		        android:layout_marginTop="5dp"  	
@@ -110,6 +113,7 @@
 			        style="@style/UsbongLoginEditText"	 
 			        android:text="Bank Deposit"
 			        android:textColor="#ffffff"
+			        android:checked="true"
 			        />
 			   	<RadioButton
 			        android:id="@+id/pera_padala_radiobutton"	               
