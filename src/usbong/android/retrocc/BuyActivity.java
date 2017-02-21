@@ -29,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -181,70 +182,75 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 					init();
 				}
 				else {
-					//TODO: store product details later
-					StringBuffer buySummary = new StringBuffer();
-					buySummary.append("-Purchase Order Summary-\n");					
-					buySummary.append(productDetails+"\n--\n");
-										
-					buySummary.append("Customer Name: "+
-							((TextView)findViewById(R.id.surname)).getText().toString()+", "+
-							((TextView)findViewById(R.id.first_name)).getText().toString()+"\n");    	
-
-					buySummary.append("Contact Number: "+
-							((TextView)findViewById(R.id.contact_number)).getText().toString()+"\n");    	
-
-					RadioGroup radioButtonGroup = (RadioGroup)findViewById(R.id.multiple_radio_buttons_radiogroup);
-					int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();				
-//					RadioButton r = (RadioButton) radioButtonGroup.getChildAt(radioButtonID); 
-					RadioButton radioButton = (RadioButton) radioButtonGroup.findViewById(radioButtonID);
-					String selectedText = radioButton.getText().toString();	 
-					buySummary.append("Preference: "+selectedText+"\n");    	
-
-					buySummary.append("Address: "+
-							((TextView)findViewById(R.id.address)).getText().toString()+"\n");    	
-					
-					RadioGroup paymentMethodRadioButtonGroup = (RadioGroup)findViewById(R.id.payment_method_multiple_radio_buttons_radiogroup);
-					int paymentMethodRadioButtonID = paymentMethodRadioButtonGroup.getCheckedRadioButtonId();					
-					RadioButton paymentMethodRadioButton = (RadioButton) paymentMethodRadioButtonGroup.findViewById(paymentMethodRadioButtonID);
-					String paymentMethodSelectedText = paymentMethodRadioButton.getText().toString();	 
-
-					buySummary.append("Payment Method: "+paymentMethodSelectedText+"\n");    	
-
-					String additionalInstructionsString = ((TextView)findViewById(R.id.additional_instructions)).getText().toString();					
-					if (additionalInstructionsString.trim().equals("")) {
-						buySummary.append("Additional Instructions: "+
-								"N/A\n");    							
+					if (verifyFields()) {						
+						StringBuffer buySummary = new StringBuffer();
+						buySummary.append("-Purchase Order Summary-\n");					
+						buySummary.append(productDetails+"\n--\n");
+											
+						buySummary.append("Customer Name: "+
+								((TextView)findViewById(R.id.surname)).getText().toString()+", "+
+								((TextView)findViewById(R.id.first_name)).getText().toString()+"\n");    	
+	
+						buySummary.append("Contact Number: "+
+								((TextView)findViewById(R.id.contact_number)).getText().toString()+"\n");    	
+	
+						RadioGroup radioButtonGroup = (RadioGroup)findViewById(R.id.multiple_radio_buttons_radiogroup);
+						int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();				
+	//					RadioButton r = (RadioButton) radioButtonGroup.getChildAt(radioButtonID); 
+						RadioButton radioButton = (RadioButton) radioButtonGroup.findViewById(radioButtonID);
+						String selectedText = radioButton.getText().toString();	 
+						buySummary.append("Preference: "+selectedText+"\n");    	
+	
+						buySummary.append("Address: "+
+								((TextView)findViewById(R.id.address)).getText().toString()+"\n");    	
+						
+						RadioGroup paymentMethodRadioButtonGroup = (RadioGroup)findViewById(R.id.payment_method_multiple_radio_buttons_radiogroup);
+						int paymentMethodRadioButtonID = paymentMethodRadioButtonGroup.getCheckedRadioButtonId();					
+						RadioButton paymentMethodRadioButton = (RadioButton) paymentMethodRadioButtonGroup.findViewById(paymentMethodRadioButtonID);
+						String paymentMethodSelectedText = paymentMethodRadioButton.getText().toString();	 
+	
+						buySummary.append("Payment Method: "+paymentMethodSelectedText+"\n");    	
+	
+						String additionalInstructionsString = ((TextView)findViewById(R.id.additional_instructions)).getText().toString();					
+						if (additionalInstructionsString.trim().equals("")) {
+							buySummary.append("Additional Instructions: "+
+									"N/A\n");    							
+						}
+						else {
+							buySummary.append("Additional Instructions: "+
+									additionalInstructionsString+"\n");    							
+						}
+						
+						String additionalInquiriesString = ((TextView)findViewById(R.id.additional_inquiries)).getText().toString();					
+						if (additionalInquiriesString.trim().equals("")) {
+							buySummary.append("Additional Inquiries: "+
+									"N/A\n");    							
+						}
+						else {
+							buySummary.append("Additional Inquiries: "+
+									additionalInquiriesString+"\n");    							
+						}
+	/*
+						//added by Mike, 20170221
+						UsbongUtils.generateDateTimeStamp();
+						buySummary.append("\nPurchase Order ID:\n"+UsbongUtils.getDateTimeStamp()+"\n");					
+	*/					
+						buySummary.append("-End of Summary-");    							
+											
+						//http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application;
+						//answer by: Jeremy Logan, 20100204
+						//added by Mike, 20170220
+					    Intent i = new Intent(Intent.ACTION_SEND);
+					    i.setType("message/rfc822"); //remove all non-email apps that support send intent from chooser
+					    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{UsbongConstants.EMAIL_ADDRESS});
+					    i.putExtra(Intent.EXTRA_SUBJECT, "Purchase Order: "+productDetails.substring(0,productDetails.indexOf("\n")).replace("Title: ",""));
+					    i.putExtra(Intent.EXTRA_TEXT   , buySummary.toString());
+					    try {
+					        startActivity(Intent.createChooser(i, "Sending email..."));
+					    } catch (android.content.ActivityNotFoundException ex) {
+					        Toast.makeText(BuyActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+					    }	
 					}
-					else {
-						buySummary.append("Additional Instructions: "+
-								additionalInstructionsString+"\n");    							
-					}
-					
-					String additionalInquiriesString = ((TextView)findViewById(R.id.additional_inquiries)).getText().toString();					
-					if (additionalInquiriesString.trim().equals("")) {
-						buySummary.append("Additional Inquiries: "+
-								"N/A\n");    							
-					}
-					else {
-						buySummary.append("Additional Inquiries: "+
-								additionalInquiriesString+"\n");    							
-					}
-
-					buySummary.append("-End of Summary-");    							
-					
-					//http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application;
-					//answer by: Jeremy Logan, 20100204
-					//added by Mike, 20170220
-				    Intent i = new Intent(Intent.ACTION_SEND);
-				    i.setType("message/rfc822"); //remove all non-email apps that support send intent from chooser
-				    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{UsbongConstants.EMAIL_ADDRESS});
-				    i.putExtra(Intent.EXTRA_SUBJECT, "Purchase Order: "+productDetails.substring(0,productDetails.indexOf("\n")).replace("Title: ",""));
-				    i.putExtra(Intent.EXTRA_TEXT   , buySummary.toString());
-				    try {
-				        startActivity(Intent.createChooser(i, "Sending email..."));
-				    } catch (android.content.ActivityNotFoundException ex) {
-				        Toast.makeText(BuyActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-				    }	
 				}				
 			    
 /*
@@ -269,6 +275,56 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 			}
     	});    	
 */    	
+    }
+    
+    public boolean verifyFields() {
+    	boolean allFieldsAreFilledUp=true;
+    	
+    	TextView surnameTextView = ((TextView)findViewById(R.id.surname));
+		String surname = surnameTextView.getText().toString();	
+		if (surname.trim().equals("")) {
+			surnameTextView.setBackgroundColor(Color.parseColor("#fff9b6")); 
+			allFieldsAreFilledUp=false;
+		}
+		else {
+			surnameTextView.setBackgroundColor(Color.parseColor("#EEEEEE")); 
+		}
+
+    	TextView firstnameTextView = ((TextView)findViewById(R.id.first_name));
+		String firstname = firstnameTextView.getText().toString();
+		if (firstname.trim().equals("")) {
+			firstnameTextView.setBackgroundColor(Color.parseColor("#fff9b6")); 
+			allFieldsAreFilledUp=false;
+		}
+		else {
+			firstnameTextView.setBackgroundColor(Color.parseColor("#EEEEEE")); 
+		}
+
+    	TextView contactNumberTextView = ((TextView)findViewById(R.id.contact_number));
+		String contactNumber = contactNumberTextView.getText().toString();
+		if (contactNumber.trim().equals("")) {
+			contactNumberTextView.setBackgroundColor(Color.parseColor("#fff9b6")); 
+			allFieldsAreFilledUp=false;
+		}
+		else {
+			contactNumberTextView.setBackgroundColor(Color.parseColor("#EEEEEE")); 
+		}
+
+    	TextView addressTextView = ((TextView)findViewById(R.id.address));
+		String address = addressTextView.getText().toString();
+		if (address.trim().equals("")) {
+			addressTextView.setBackgroundColor(Color.parseColor("#fff9b6")); 
+			allFieldsAreFilledUp=false;
+		}
+		else {
+			addressTextView.setBackgroundColor(Color.parseColor("#EEEEEE")); 
+		}
+				
+		if (!allFieldsAreFilledUp) {
+	        Toast.makeText(BuyActivity.this, "Please fill up all required fields.", Toast.LENGTH_LONG).show();
+	        return false;
+		}
+		return true;
     }
     
     public void reset() {
