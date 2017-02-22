@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="usbong.android.retrocc"
       android:versionCode="1"
-      android:versionName="1.0.0-20160210"
+      android:versionName="1.0.0-20160221"
       android:installLocation="auto"      
 >
 

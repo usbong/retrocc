@@ -159,6 +159,20 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
             	e.printStackTrace();
             }            		
     	}
+    	else { //if account screen
+		    //Reference: http://stackoverflow.com/questions/23024831/android-shared-preferences-example
+	        //; last accessed: 20150609
+	        //answer by Elenasys
+	        //added by Mike, 20150207
+	        SharedPreferences prefs = getSharedPreferences(UsbongConstants.MY_ACCOUNT_DETAILS, MODE_PRIVATE);
+	        if (prefs!=null) {
+		      ((TextView)findViewById(R.id.first_name)).setText(prefs.getString("firstName", ""));//"" is the default value.
+		      ((TextView)findViewById(R.id.surname)).setText(prefs.getString("surname", "")); //"" is the default value.
+		      ((TextView)findViewById(R.id.contact_number)).setText(prefs.getString("contactNumber", "")); //"" is the default value
+		      ((TextView)findViewById(R.id.address)).setText(prefs.getString("shippingAddress", "")); //"" is the default value
+	        }
+    	}
+    	
 /*
     	//added by Mike, 20160126
     	buyButton = (Button)findViewById(R.id.buy_button);
@@ -182,7 +196,19 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 					init();
 				}
 				else {
-					if (verifyFields()) {						
+					if (verifyFields()) {			
+						//save data 
+				        //Reference: http://stackoverflow.com/questions/23024831/android-shared-preferences-example
+				        //; last accessed: 20150609
+				        //answer by Elenasys
+				        //added by Mike, 20170207
+				        SharedPreferences.Editor editor = getSharedPreferences(UsbongConstants.MY_ACCOUNT_DETAILS, MODE_PRIVATE).edit();
+				        editor.putString("firstName", ((TextView)findViewById(R.id.first_name)).getText().toString());
+				        editor.putString("surname", ((TextView)findViewById(R.id.surname)).getText().toString());
+				        editor.putString("contactNumber", ((TextView)findViewById(R.id.contact_number)).getText().toString());
+				        editor.putString("shippingAddress", ((TextView)findViewById(R.id.address)).getText().toString());
+				        editor.commit();				    	
+						
 						StringBuffer buySummary = new StringBuffer();
 						buySummary.append("-Purchase Order Summary-\n");					
 						buySummary.append(productDetails+"\n--\n");
@@ -623,7 +649,11 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				        editor.putString("surname", surName.getText().toString());
 				        editor.putString("contactNumber", contactNumber.getText().toString());
 				        editor.putString("shippingAddress", shippingAddress.getText().toString());
-				        editor.commit();				    	
+				        editor.commit();		
+				        
+				        //added by Mike, 20170222
+				        setContentView(R.layout.account);	
+				        init();
 				    }
 				}).show();
 				return true;
