@@ -546,7 +546,7 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 		            Handler mainHandler = new Handler(getInstance().getBaseContext().getMainLooper());
 		            Runnable myRunnable = new Runnable() {
 		            	@Override
-		            	public void run() {
+		            	public void run() {		            		
 		    				//added by Mike, 20160126
 		    				if (myTree.equals(UsbongConstants.TREE_TYPE_BUY)) {
 		    					initTreeLoader();
@@ -1603,7 +1603,15 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
     			initTakePhotoScreen();
         		break;
         }
-        initParser(); 
+		//added by Mike, 20160223
+		if (myTree.equals(UsbongConstants.TREE_TYPE_BUY)) {
+			initTreeLoader();
+		}
+		else {
+		    initParser();		    					
+		}
+        /*initParser(); 
+         */
     }
 
     @Override
@@ -2242,8 +2250,10 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
    
     public void initBackNextButtons()
     {
+/*//commented out by Mike, 20170223; not used    	
     	initBackButton();
     	initNextButton();
+*/    	
     }
 
     public void initBackButton()
