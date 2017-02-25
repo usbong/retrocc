@@ -18,7 +18,7 @@ public class UsbongConstants {
 		
 	//added by Mike, 20170207
     public static final String MY_ACCOUNT_DETAILS= "MyAccountDetails";
-    public static final String EMAIL_ADDRESS= "order@retrocc.ph";	
+    public static final String EMAIL_ADDRESS= "jbsyson@yahoo.com";//"order@retrocc.ph";	
     
     //added by Mike, 20170225
 	public final static int MEETUP=0;

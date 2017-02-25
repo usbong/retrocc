@@ -62,6 +62,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 	private final static int BUY_SCREEN=0;
 	private final static int ACCOUNT_SCREEN=1;	
 	private static int currScreen;
+	
+	private boolean isSendingData;
 
 	//edited by Mike, 20170225
 	private static int currPreference=UsbongConstants.defaultPreference; 	
@@ -288,7 +290,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 					    i.putExtra(Intent.EXTRA_SUBJECT, "Purchase Order: "+productDetails.substring(0,productDetails.indexOf("\n")).replace("Title: ",""));
 					    i.putExtra(Intent.EXTRA_TEXT   , buySummary.toString());
 					    try {
-					        startActivity(Intent.createChooser(i, "Sending email..."));
+					    	isSendingData=true; //added by Mike, 20170225
+					        startActivityForResult(Intent.createChooser(i, "Sending email..."), 1); 
 					    } catch (android.content.ActivityNotFoundException ex) {
 					        Toast.makeText(BuyActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 					    }	
@@ -384,11 +387,23 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
             		myProgressDialog.dismiss();
             	}
 //                String result=data.getStringExtra("result");
+
             }
             if (resultCode == RESULT_CANCELED) {
                 //Write your code if there's no result
             }            
-        }                    
+
+            //added by Mike, 20170225
+	    	if (isSendingData) {
+	    		isSendingData=false;
+	
+		        //added by Mike, 20170225
+				finish();    
+				Intent toUsbongDecisionTreeEngineActivityIntent = new Intent(BuyActivity.this, UsbongDecisionTreeEngineActivity.class);
+				toUsbongDecisionTreeEngineActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+				startActivity(toUsbongDecisionTreeEngineActivityIntent);
+	    	}
+        }
     }//onActivityResult
 
     //added by Mike, July 2, 2015
