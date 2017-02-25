@@ -59,21 +59,13 @@ import android.widget.Toast;
  */
 public class BuyActivity extends AppCompatActivity/*Activity*/ 
 {	
-	
 	private final static int BUY_SCREEN=0;
 	private final static int ACCOUNT_SCREEN=1;	
 	private static int currScreen;
-	
-	private final static int MEETUP=0;
-	private final static int SHIPPING=1;
-	private final static int defaultPreference=SHIPPING; //default
-	private static int currPreference=defaultPreference; 
-	
-	private final static int CASH_UPON_MEETUP=0;
-	private final static int BANK_DEPOSIT=1;
-	private final static int PERA_PADALA=2;	
-	private final static int defaultModeOfPayment=BANK_DEPOSIT;	//default
-	private static int currModeOfPayment=defaultModeOfPayment; 
+
+	//edited by Mike, 20170225
+	private static int currPreference=UsbongConstants.defaultPreference; 	
+	private static int currModeOfPayment=UsbongConstants.defaultModeOfPayment; 
 	
 	private String productDetails; //added by Mike, 20170221
 		
@@ -185,13 +177,13 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 		      
 		      //added by Mike, 20170223
 		      RadioGroup preferenceRadioButtonGroup = ((RadioGroup)findViewById(R.id.preference_radiogroup));
-			  ((RadioButton)preferenceRadioButtonGroup.getChildAt(prefs.getInt("preference", defaultPreference))).setChecked(true);
+			  ((RadioButton)preferenceRadioButtonGroup.getChildAt(prefs.getInt("preference", UsbongConstants.defaultPreference))).setChecked(true);
 		      	
 			  ((TextView)findViewById(R.id.address)).setText(prefs.getString("shippingAddress", "")); //"" is the default value
 
 		      //added by Mike, 20170223
 			  RadioGroup modeOfPaymentRadioButtonGroup = ((RadioGroup)findViewById(R.id.mode_of_payment_radiogroup));
-			  ((RadioButton)modeOfPaymentRadioButtonGroup.getChildAt(prefs.getInt("modeOfPayment", defaultModeOfPayment))).setChecked(true);
+			  ((RadioButton)modeOfPaymentRadioButtonGroup.getChildAt(prefs.getInt("modeOfPayment", UsbongConstants.defaultModeOfPayment))).setChecked(true);
 	        }
     	}
     	
@@ -442,6 +434,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 	{		
 		switch(item.getItemId())
 		{
+/*		
 			case(R.id.settings):
 				//Reference: http://stackoverflow.com/questions/16954196/alertdialog-with-checkbox-in-android;
 				//last accessed: 20160408; answer by: kamal; edited by: Empty2K12
@@ -538,13 +531,6 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 									else if (i==UsbongConstants.AUTO_PLAY) {
 							    		out.println("IS_IN_AUTO_PLAY_MODE=ON");
 							    		UsbongUtils.IS_IN_AUTO_PLAY_MODE=true;						
-	/*						    		
-							    		//if auto_play is ON, auto_narrate is also ON
-							    		//however, it is possible to have auto_play OFF,
-							    		//while auto_narrate is ON
-							    		out.println("IS_IN_AUTO_NARRATE_MODE=ON");
-							    		UsbongUtils.IS_IN_AUTO_NARRATE_MODE=true;
-	*/						    									
 									}	
 									else if (i==UsbongConstants.AUTO_LOOP) {
 							    		out.println("IS_IN_AUTO_LOOP_MODE=ON");
@@ -595,24 +581,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				    }
 				}).create();
 				inAppSettingsDialog.show();
-	/*			
-			    	new AlertDialog.Builder(UsbongDecisionTreeEngineActivity.this).setTitle("Settings")
-					.setMessage("Automatic voice-over narration:")
-//					.setView(requiredFieldAlertStringTextView)
-			    	.setPositiveButton("Turn On", new DialogInterface.OnClickListener() {					
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							UsbongUtils.isInAutoVoiceOverNarration=true;
-						}
-			    	})
-				    .setNegativeButton("Turn Off", new DialogInterface.OnClickListener() {					
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							UsbongUtils.isInAutoVoiceOverNarration=false;
-						}
-					}).show();
-	*/				
 					return true;
+*/					
 			case(R.id.about):
 		    	new AlertDialog.Builder(BuyActivity.this).setTitle("About")
 				.setMessage(UsbongUtils.readTextFileInAssetsFolder(BuyActivity.this,"credits.txt")) //don't add a '/', otherwise the file would not be found
@@ -674,12 +644,12 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 		          contactNumber.setText(prefs.getString("contactNumber", "")); //"" is the default value.
 
 		          //added by Mike, 20170223
-		          ((RadioButton)preference.getChildAt(prefs.getInt("preference", defaultPreference))).setChecked(true);
+		          ((RadioButton)preference.getChildAt(prefs.getInt("preference", UsbongConstants.defaultPreference))).setChecked(true);
 				  		          
 		          shippingAddress.setText(prefs.getString("shippingAddress", "")); //"" is the default value.
 		          
 			      //added by Mike, 20170223				  
-		          ((RadioButton)modeOfPayment.getChildAt(prefs.getInt("modeOfPayment", defaultModeOfPayment))).setChecked(true);
+		          ((RadioButton)modeOfPayment.getChildAt(prefs.getInt("modeOfPayment", UsbongConstants.defaultModeOfPayment))).setChecked(true);
 		        }
 				
 				LinearLayout ll=new LinearLayout(this);

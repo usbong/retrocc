@@ -65,6 +65,7 @@ import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.text.Html;
 import android.text.InputType;
 import android.util.Log;
@@ -102,6 +103,10 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 //	private static boolean USE_ENG_ONLY=true; //uses English only	
 //	private static boolean UsbongUtils.IS_IN_DEBUG_MODE=false;
 	
+	//edited by Mike, 20170225
+	private static int currPreference=UsbongConstants.defaultPreference; 	
+	private static int currModeOfPayment=UsbongConstants.defaultModeOfPayment; 
+
 	public int currLanguageBeingUsed;
 	
 	public int currScreen=UsbongConstants.TEXTFIELD_SCREEN;
@@ -855,6 +860,7 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 		StringBuffer sb = new StringBuffer();
 		switch(item.getItemId())
 		{
+/*		
 			case(R.id.set_language):	
 				initSetLanguage();
 				//refresh the menu options
@@ -961,13 +967,6 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 									else if (i==UsbongConstants.AUTO_PLAY) {
 							    		out.println("IS_IN_AUTO_PLAY_MODE=ON");
 							    		UsbongUtils.IS_IN_AUTO_PLAY_MODE=true;						
-	/*						    		
-							    		//if auto_play is ON, auto_narrate is also ON
-							    		//however, it is possible to have auto_play OFF,
-							    		//while auto_narrate is ON
-							    		out.println("IS_IN_AUTO_NARRATE_MODE=ON");
-							    		UsbongUtils.IS_IN_AUTO_NARRATE_MODE=true;
-	*/						    									
 									}	
 									else if (i==UsbongConstants.AUTO_LOOP) {
 							    		out.println("IS_IN_AUTO_LOOP_MODE=ON");
@@ -1018,24 +1017,8 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 				    }
 				}).create();
 				inAppSettingsDialog.show();
-	/*			
-			    	new AlertDialog.Builder(UsbongDecisionTreeEngineActivity.this).setTitle("Settings")
-					.setMessage("Automatic voice-over narration:")
-//					.setView(requiredFieldAlertStringTextView)
-			    	.setPositiveButton("Turn On", new DialogInterface.OnClickListener() {					
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							UsbongUtils.isInAutoVoiceOverNarration=true;
-						}
-			    	})
-				    .setNegativeButton("Turn Off", new DialogInterface.OnClickListener() {					
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							UsbongUtils.isInAutoVoiceOverNarration=false;
-						}
-					}).show();
-	*/				
 				return true;
+*/				
 			case(R.id.about):
 		    	new AlertDialog.Builder(UsbongDecisionTreeEngineActivity.this).setTitle("About")
 				.setMessage(UsbongUtils.readTextFileInAssetsFolder(UsbongDecisionTreeEngineActivity.this,"credits.txt")) //don't add a '/', otherwise the file would not be found
@@ -1052,12 +1035,40 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 				surName.setHint("Surname");
 				final EditText contactNumber = new EditText(this);
 				contactNumber.setHint("Contact Number");
+				contactNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+				
+				//added by Mike, 20170223
+				final RadioGroup preference = new RadioGroup(this);
+				preference.setOrientation(RadioGroup.HORIZONTAL);
+				
+				RadioButton meetup = new AppCompatRadioButton(this);
+				meetup.setText("Meet-up");
+				preference.addView(meetup);
+								
+				RadioButton shipping = new AppCompatRadioButton(this);
+				shipping.setText("Shipping");
+				preference.addView(shipping);				
+				
 				final EditText shippingAddress = new EditText(this);
 				shippingAddress.setHint("Shipping Address");
 				shippingAddress.setMinLines(5);
+
+				//added by Mike, 20170223
+				final RadioGroup modeOfPayment = new RadioGroup(this);
+				modeOfPayment.setOrientation(RadioGroup.VERTICAL);
 				
-				contactNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-				
+				RadioButton cashUponMeetup = new AppCompatRadioButton(this);
+				cashUponMeetup.setText("Cash upon meet-up");
+				modeOfPayment.addView(cashUponMeetup);
+									
+				RadioButton bankDeposit = new AppCompatRadioButton(this);
+				bankDeposit.setText("Bank Deposit");
+				modeOfPayment.addView(bankDeposit);
+
+				RadioButton peraPadala = new AppCompatRadioButton(this);
+				peraPadala.setText("Pera Padala");
+				modeOfPayment.addView(peraPadala);
+
 			    //Reference: http://stackoverflow.com/questions/23024831/android-shared-preferences-example
 		        //; last accessed: 20150609
 		        //answer by Elenasys
@@ -1067,7 +1078,14 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 		          firstName.setText(prefs.getString("firstName", ""));//"" is the default value.
 		          surName.setText(prefs.getString("surname", "")); //"" is the default value.
 		          contactNumber.setText(prefs.getString("contactNumber", "")); //"" is the default value.
+
+		          //added by Mike, 20170223
+		          ((RadioButton)preference.getChildAt(prefs.getInt("preference", UsbongConstants.defaultPreference))).setChecked(true);
+				  		          
 		          shippingAddress.setText(prefs.getString("shippingAddress", "")); //"" is the default value.
+		          
+			      //added by Mike, 20170223				  
+		          ((RadioButton)modeOfPayment.getChildAt(prefs.getInt("modeOfPayment", UsbongConstants.defaultModeOfPayment))).setChecked(true);
 		        }
 				
 				LinearLayout ll=new LinearLayout(this);
@@ -1075,7 +1093,9 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 				ll.addView(firstName);
 				ll.addView(surName);
 				ll.addView(contactNumber);
+				ll.addView(preference);
 				ll.addView(shippingAddress);				
+				ll.addView(modeOfPayment);
 
 				new AlertDialog.Builder(this).setTitle("My Account")
 				.setView(ll)
@@ -1095,8 +1115,23 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 				        editor.putString("firstName", firstName.getText().toString());
 				        editor.putString("surname", surName.getText().toString());
 				        editor.putString("contactNumber", contactNumber.getText().toString());
+
+				        for (int i=0; i< preference.getChildCount(); i++) {
+				        	if (((RadioButton)preference.getChildAt(i)).isChecked()) {
+				        		currPreference=i;
+				        	}
+				        }
+				        editor.putInt("preference", currPreference); //added by Mike, 20170223				        
+				        
 				        editor.putString("shippingAddress", shippingAddress.getText().toString());
-				        editor.commit();				    	
+
+				        for (int i=0; i< modeOfPayment.getChildCount(); i++) {
+				        	if (((RadioButton)modeOfPayment.getChildAt(i)).isChecked()) {
+				        		currModeOfPayment=i;
+				        	}
+				        }
+				        editor.putInt("modeOfPayment", currModeOfPayment); //added by Mike, 20170223
+				        editor.commit();						        
 				    }
 				}).show();
 				return true;

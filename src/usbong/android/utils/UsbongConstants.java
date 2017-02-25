@@ -20,6 +20,19 @@ public class UsbongConstants {
     public static final String MY_ACCOUNT_DETAILS= "MyAccountDetails";
     public static final String EMAIL_ADDRESS= "order@retrocc.ph";	
     
+    //added by Mike, 20170225
+	public final static int MEETUP=0;
+	public final static int SHIPPING=1;
+	public final static int defaultPreference=SHIPPING; //default
+//	private static int currPreference=defaultPreference; 
+	
+	public final static int CASH_UPON_MEETUP=0;
+	public final static int BANK_DEPOSIT=1;
+	public final static int PERA_PADALA=2;	
+	public final static int defaultModeOfPayment=BANK_DEPOSIT;	//default
+//	private static int currModeOfPayment=defaultModeOfPayment; 
+
+    
     //SCREEN types constants
 	public static final int YES_NO_DECISION_SCREEN=0;	
 	public static final int MULTIPLE_RADIO_BUTTONS_SCREEN=1;	
