@@ -222,9 +222,24 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				        editor.putString("firstName", ((TextView)findViewById(R.id.first_name)).getText().toString());
 				        editor.putString("surname", ((TextView)findViewById(R.id.surname)).getText().toString());
 				        editor.putString("contactNumber", ((TextView)findViewById(R.id.contact_number)).getText().toString());
-				        editor.putInt("preference", currPreference); //added by Mike, 20170223				        
+
+				        RadioGroup radioButtonGroup = (RadioGroup)findViewById(R.id.preference_radiogroup);				        		
+						for (int i=0; i< radioButtonGroup.getChildCount(); i++) {
+							if (((RadioButton)radioButtonGroup.getChildAt(i)).isChecked()) {
+								currPreference=i;
+							}
+						}
+						editor.putInt("preference", currPreference); //added by Mike, 20170223				        
+						
 				        editor.putString("shippingAddress", ((TextView)findViewById(R.id.address)).getText().toString());
-				        editor.putInt("modeOfPayment", currModeOfPayment); //added by Mike, 20170223				        
+						
+						RadioGroup paymentMethodRadioButtonGroup = (RadioGroup)findViewById(R.id.mode_of_payment_radiogroup);
+						for (int i=0; i< paymentMethodRadioButtonGroup.getChildCount(); i++) {
+							if (((RadioButton)paymentMethodRadioButtonGroup.getChildAt(i)).isChecked()) {
+								currModeOfPayment=i;
+							}
+						}
+						editor.putInt("modeOfPayment", currModeOfPayment); //added by Mike, 20170223
 				        editor.commit();				    	
 										        
 						StringBuffer buySummary = new StringBuffer();
@@ -238,7 +253,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 						buySummary.append("Contact Number: "+
 								((TextView)findViewById(R.id.contact_number)).getText().toString()+"\n");    	
 	
-						RadioGroup radioButtonGroup = (RadioGroup)findViewById(R.id.preference_radiogroup);
+//						RadioGroup radioButtonGroup = (RadioGroup)findViewById(R.id.preference_radiogroup);
 						int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();				
 	//					RadioButton r = (RadioButton) radioButtonGroup.getChildAt(radioButtonID); 
 						RadioButton radioButton = (RadioButton) radioButtonGroup.findViewById(radioButtonID);
@@ -248,7 +263,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 						buySummary.append("Address: "+
 								((TextView)findViewById(R.id.address)).getText().toString()+"\n");    	
 						
-						RadioGroup paymentMethodRadioButtonGroup = (RadioGroup)findViewById(R.id.mode_of_payment_radiogroup);
+//						RadioGroup paymentMethodRadioButtonGroup = (RadioGroup)findViewById(R.id.mode_of_payment_radiogroup);
 						int paymentMethodRadioButtonID = paymentMethodRadioButtonGroup.getCheckedRadioButtonId();					
 						RadioButton paymentMethodRadioButton = (RadioButton) paymentMethodRadioButtonGroup.findViewById(paymentMethodRadioButtonID);
 						String paymentMethodSelectedText = paymentMethodRadioButton.getText().toString();	 
