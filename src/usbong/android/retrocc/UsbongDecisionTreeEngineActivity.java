@@ -14,12 +14,10 @@
  */
 package usbong.android.retrocc;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,7 +42,6 @@ import usbong.android.utils.PurchaseLanguageBundleListAdapter;
 import usbong.android.utils.UsbongConstants;
 import usbong.android.utils.UsbongScreenProcessor;
 import usbong.android.utils.UsbongUtils;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -64,6 +61,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.text.Html;
@@ -249,7 +249,8 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 	private BuyActivity myBuyActivity;
 	
 //	@SuppressLint("InlinedApi")
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
@@ -282,7 +283,44 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);        
 //        getSupportActionBar().setTitle("Title Screen");
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name)); //edited by Mike, 20170214
+/*
+        //added by Mike, 20170314
+        //Reference: https://developer.android.com/training/implementing-navigation/lateral.html#horizontal-paging;
+        //last accessed: 20170314
+        final ActionBar actionBar = getSupportActionBar();
+
+        // Specify that tabs should be displayed in the action bar.
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
+        // Create a tab listener that is called when the user changes tabs.
+        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+			@Override
+			public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTabSelected(Tab arg0, FragmentTransaction arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+        };
+
+        // Add 3 tabs, specifying the tab's text and TabListener
+        for (int i = 0; i < 3; i++) {
+            actionBar.addTab(
+                    actionBar.newTab()
+                            .setText("Tab " + (i + 1))
+                            .setTabListener(tabListener));
+        }
+*/             
         currUsbongNode=""; //added by Mike, 20160417
         isAutoLoopedTree=false; //added by Mike, 20160417
 
