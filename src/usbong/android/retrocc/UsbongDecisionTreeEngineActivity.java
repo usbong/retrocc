@@ -51,6 +51,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -98,6 +99,9 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 
 //@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
+	//added by Mike, 20170315
+	private String currCategory = UsbongConstants.ITEMS_LIST_COMICS;
+
 //	private static final boolean UsbongUtils.USE_UNESCAPE=true; //allows the use of \n (new line) in the decision tree
 
 //	private static boolean USE_ENG_ONLY=true; //uses English only	
@@ -106,7 +110,7 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 	//edited by Mike, 20170225
 	private static int currPreference=UsbongConstants.defaultPreference; 	
 	private static int currModeOfPayment=UsbongConstants.defaultModeOfPayment; 
-
+	
 	public int currLanguageBeingUsed;
 	
 	public int currScreen=UsbongConstants.TEXTFIELD_SCREEN;
@@ -420,7 +424,8 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
   			UsbongUtils.storeAssetsFileIntoSDCard(this, UsbongConstants.TREE_TYPE_BUY+".utree"); //added by Mike, 20160126  			
   			
   			//added by Mike, 20160126
-  			UsbongUtils.storeAssetsFileIntoSDCard(this, UsbongConstants.ITEMS_LIST+".txt");  
+  			UsbongUtils.storeAssetsFileIntoSDCard(this, UsbongConstants.ITEMS_LIST_COMICS+".txt");  
+  			UsbongUtils.storeAssetsFileIntoSDCard(this, UsbongConstants.ITEMS_LIST_TOYS+".txt");  
     	}
     	catch(IOException ioe) {
     		ioe.printStackTrace();
@@ -659,6 +664,12 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
     	usbongAnswerContainerCounter=0;
     	usbongNodeContainerCounter=-1; //begin with -1
     }
+
+    //added by Mike, 20170315
+	public void initTreeLoader(String currCategory) {
+		this.currCategory = currCategory;
+		initTreeLoader();
+	}
     
 	public void initTreeLoader()
 	{
@@ -666,10 +677,35 @@ public class UsbongDecisionTreeEngineActivity extends AppCompatActivity implemen
 
 		isInTreeLoader=true;
 		
+		Button comicsButton = (Button)findViewById(R.id.comics_button);
+		comicsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				initTreeLoader(UsbongConstants.ITEMS_LIST_COMICS);
+			}
+		});    
+
+		Button toysButton = (Button)findViewById(R.id.toys_button);
+		toysButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				initTreeLoader(UsbongConstants.ITEMS_LIST_TOYS);
+			}
+		});    
+
+		if (currCategory==UsbongConstants.ITEMS_LIST_COMICS) {
+			comicsButton.setTypeface(Typeface.DEFAULT_BOLD);
+			toysButton.setTypeface(Typeface.DEFAULT);
+		}
+		else {
+			comicsButton.setTypeface(Typeface.DEFAULT);
+			toysButton.setTypeface(Typeface.DEFAULT_BOLD);			
+		}
+
 		resetContainers();//added by Mike, 20170213
 
 //		listOfTreesArrayList = UsbongUtils.getTreeArrayList(UsbongUtils.USBONG_TREES_FILE_PATH);
-		listOfTreesArrayList = UsbongUtils.getItemArrayList(UsbongUtils.USBONG_TREES_FILE_PATH + UsbongConstants.ITEMS_LIST+".txt");
+		listOfTreesArrayList = UsbongUtils.getItemArrayList(UsbongUtils.USBONG_TREES_FILE_PATH + currCategory+".txt");
 			
 		mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
 		mCustomAdapter.sort(); //edited by Mike, 20170203
